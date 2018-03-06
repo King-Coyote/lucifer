@@ -4,10 +4,11 @@
 
 using namespace std;
 
-RenderSampler::RenderSampler() :
-    haltonBases({2, 3}),
-    haltonIndices({0, 0})
-{
+RenderSampler::RenderSampler() {
+	haltonBases[0] = 2;
+	haltonBases[1] = 3;
+	haltonIndices[0] = 0;
+	haltonIndices[1] = 0;
     invertedBases[0] = 1.0 / haltonBases[0];
     invertedBases[1] = 1.0 / haltonBases[1];
 }

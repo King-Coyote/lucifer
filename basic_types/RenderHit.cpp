@@ -5,9 +5,10 @@ Hit::Hit() :
     hitObject(nullptr)
 {}
 
-Hit::Hit(float t, Vec hitPoint, Vec hitNormal, RenderObject * hitObject) :
+Hit::Hit(float t, Vec hitPoint, Vec hitNormal, const RenderObject * hitObject) :
     t(t),
     hitPoint(hitPoint),
+    hitNormal(hitNormal),
     hitObject(hitObject)
 {}
 

@@ -1,5 +1,7 @@
-#include <time>
+#include <ctime>
 #include "UniformRandomBit.h"
+
+using namespace std;
 
 UniformRandomBit::UniformRandomBit() :
     currentVal(0),

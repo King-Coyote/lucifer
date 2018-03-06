@@ -12,16 +12,13 @@ using namespace std;
 typedef vector<shared_ptr<const RenderObject>> obj_vector;
 
 class RenderScene {
-public:
-    RenderScene();
+public: // METHODS
 
     Hit getClosestIntersect(const Ray &ray) const;
     void addObject(const RenderObject* obj);
     void addLight(const RenderObject* light);
     const obj_vector& getLights() const;
-private:
-    // note that things can belong to both lights and objects,
-    // or only to lights, or only to objects.
+private: // MEMBERS
     obj_vector objects;
     obj_vector lights;
 };

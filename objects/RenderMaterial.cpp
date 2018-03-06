@@ -126,7 +126,7 @@ float RenderMaterial::getReflectionCoefficient(const Ray& ray, const Vec& surfac
         r_n = 1 / r_n;
     }
     float R = R0 + (1 - R0)*pow(1 - cosI, 5.0);
-    R *= this->transmissionCoefficient;
+    R *= (1.0f - this->transmissionCoefficient);
     return R;
 
 }
