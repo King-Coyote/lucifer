@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <cstdio>
 #include <memory>
-#include <Magick++.h>
 #include "RenderScene.h"
 #include "RenderObjectPlane.h"
 #include "RenderMaterial.h"
@@ -9,6 +8,7 @@
 #include "Raytracer.h"
 #include "RenderCamera.h"
 #include "UniformRandomBit.h"
+#include "ImageConverter.h"
 
 int main(int argc, char** argv) {
 
@@ -34,7 +34,7 @@ int main(int argc, char** argv) {
 	mainScene.addObject(new RenderObjectPlane(Vec(0.5, 0.5, 1), Vec(0, 0, -1), "Ceiling", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 1.0, 1.0))));
 	mainScene.addObject(new RenderObjectPlane(Vec(0.5, 0, 0.5), Vec(0, 1, 0), "Front_Wall", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 1.0, 1.0))));
 
-	mainScene.addLight(new RenderObjectPointLight(Vec(0.5, 0.5, 0.5), "Main_Light", Pixel(0.5, 1.0, 1.0), 10.0));
+	mainScene.addLight(new RenderObjectPointLight(Vec(0.5, 0.5, 0.5), "Main_Light", Pixel(1.0, 1.0, 1.0), 1.0));
 
 	Pixel** pixels = new Pixel*[width];
 	for (int i = 0; i<width; i++) {
@@ -42,12 +42,12 @@ int main(int argc, char** argv) {
 	}
 
 	Raytracer raytracer = Raytracer();
-	RenderCamera camera = RenderCamera(width, height, Vec(0.5, 0.05, 0.9), Vec(0, 0.5, -0.3));
+	RenderCamera camera = RenderCamera(width, height, Vec(0.5, 0.05, 0.9), Vec(0.3, 0.5, -0.3));
 	UniformRandomBit urb = UniformRandomBit();
-	int samples = 1;
+	int samples = 3;
 	urb.setSeed(543); //TODO magic numbers for samples and seed; defaultist trash. Replace with hardware random/ args
 
-	// TODO: multithread this part u fukcin kunt (main loop)
+	// TODO: multithread this part u fukcin kunt (main loop
 	for (int j = 0; j<height; j++) {
 		for (int i = 0; i<width; i++) {
 			for (int s = 0; s<samples; s++) {
@@ -60,7 +60,8 @@ int main(int argc, char** argv) {
 	}
 
 	//TODO make the image save correctly
-	Magick::Image image = Magick::Image(Magick::Geometry(width, height), Magick::Color("magenta"));
+	ImageConverter ic = ImageConverter();
+	ic.convertImage("render_image.png", width, height, pixels);
 
 	for (int i = 0; i<width; i++) {
 		delete pixels[i];

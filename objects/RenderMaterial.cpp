@@ -117,6 +117,9 @@ void RenderMaterial::transmuteReflectedRay(Ray& ray, const Vec& hitNormal, Unifo
 
 float RenderMaterial::getReflectionCoefficient(const Ray& ray, const Vec& surfaceNormal) const {
 
+    // TODO this is obviously wrong - a diffuse material should have a transmission prob of 0
+    // regardless of angle of incidence!
+
     float R0 = (1 - this->refrIndex) / (1 + this->refrIndex);
     float r_n = 1 / this->refrIndex; // ref index of air assumed to be 1
     float cosI = (surfaceNormal * -1).dot(ray.d); // incident cosine lol

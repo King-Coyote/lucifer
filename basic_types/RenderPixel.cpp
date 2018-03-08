@@ -9,9 +9,9 @@ const T& clamp(const T& a, const T& lo, const T& hi) {
 }
 
 Pixel::Pixel() : 
-    r(1.0f), // colored magenta by default so I can see what's up
+    r(0),
     g(0),
-    b(1.0f)
+    b(0)
 {}
 
 Pixel::Pixel(float r, float g, float b) :
