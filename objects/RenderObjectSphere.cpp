@@ -3,6 +3,11 @@
 #include "RenderObjectSphere.h"
 #include "RenderRay.h"
 
+RenderObjectSphere::RenderObjectSphere(Vec centerPosition, float radius, string id, RenderMaterial material) :
+    RenderObject(centerPosition, id, material),
+    radius(radius)
+{}
+
 Hit RenderObjectSphere::getIntersection(const Ray& ray) const {
     // setup the B and C of the quadratic equation (At^2 + Bt + C = R^2, but A is 1 since the direction vector is normalised by construction)
     Vec diff = ray.o - this->position;

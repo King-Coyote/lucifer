@@ -3,14 +3,6 @@
 
 using namespace std;
 
-// TODO delete this boi?
-// RenderObjectPlane::RenderObjectPlane(Vec centerPosition, Vec n, string id) :
-//     RenderObject(centerPosition, id),
-//     normal(n)
-// {
-//     this->d = n.dot(centerPosition);
-// }
-
 RenderObjectPlane::RenderObjectPlane(Vec centerPosition, Vec n, string id, RenderMaterial material) :
     RenderObject(centerPosition, id, material),
     normal(n)
