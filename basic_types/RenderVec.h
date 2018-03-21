@@ -19,12 +19,13 @@ public: // METHODS
     Vec operator *(float c) const;
     Vec operator /(float c) const;
 
-    float      dot(const Vec& v) const;
-    Vec         cross(const Vec& v) const;
-    Vec         normalise() const;
-    float      getLength() const;
-    float      getAverage() const;
-    bool        getIsNormalised() const;
-    void        formONS(Vec& v, Vec& w); // forms an orthonormal system
-    string      toString() const;
+    float   dot(const Vec& v) const;
+    Vec     cross(const Vec& v) const;
+    Vec     normalise() const;
+    float   getLength() const;
+    float   getAverage() const;
+    bool    getIsNormalised() const;
+    void    formONS(Vec& v, Vec& w); // forms an orthonormal system
+    string  toString() const;
+    float   distanceTo(const Vec& v) const;
 };

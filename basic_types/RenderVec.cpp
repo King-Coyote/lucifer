@@ -82,3 +82,7 @@ string Vec::toString() const {
         + to_string(this->z)
         + ")";
 }
+
+float Vec::distanceTo(const Vec& v) const {
+    return (sqrt(pow(this->x - v.x, 2.0) + pow(this->y - v.y, 2.0) + pow(this->z - v.z, 2.0)));
+}

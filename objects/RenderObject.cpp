@@ -12,11 +12,18 @@ RenderObject::RenderObject(Vec position, string id, RenderMaterial material) :
     material(material)
 {}
 
-
 Pixel RenderObject::getExplicitLightContribution(const Ray& ray, const Hit& hitPoint) const {
     return Pixel(0.0f, 0.0f, 0.0f);
 }
 
 const RenderMaterial& RenderObject::getMaterial() const {
     return this->material;
+}
+
+const string& RenderObject::getId() const {
+    return this->id;
+}
+
+const Vec& RenderObject::getPosition() const {
+    return this->position;
 }

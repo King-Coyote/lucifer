@@ -1,10 +1,13 @@
 #include <memory>
+#include <omp.h>
+#include <cstring>
 #include "Raytracer.h"
 #include "RenderObject.h"
 #include "RenderHit.h"
 #include "UniformRandom.h"
 #include "RenderPixel.h"
 #include "RenderScene.h"
+#include "RenderRay.h"
 
 using namespace std;
 
@@ -35,13 +38,21 @@ void Raytracer::tracePixel(Pixel& radiance, Ray& mainRay, const RenderScene& sce
         transmuteCost = material.getTransmissionCost(mainRay, intersect.hitNormal);
     }
 
-    Pixel explicitLight; // TODO is this initialised using implicit constructor or to random floats? eek
+    Pixel explicitLight;
     for (auto light : scene.getLights()) {
-        explicitLight = light->getExplicitLightContribution(mainRay, intersect);
+        // TODO: need to raytrace here to get collisions
+        Ray toLight = Ray(intersect.hitPoint, (light->getPosition() - intersect.hitPoint));
+        float lightDist = intersect.hitPoint.distanceTo(light->getPosition());
+        Hit lightIntersect = scene.getClosestIntersect(toLight);
+        if (lightDist < lightIntersect.t) {
+            // light has nothing in the way, contribute light explicitly here
+            explicitLight = explicitLight + light->getExplicitLightContribution(toLight, intersect);
+        }
     }
 
+    // TODO does the radiance need to be divided by the PDF at the hit point?
     Pixel li; // Li from the integration of all incident light sources equation
     this->tracePixel(li, mainRay, scene, rand, depth + 1);
     radiance = radiance + li*material.getColor() * transmuteCost;
-    radiance += explicitLight;
+    radiance += explicitLight*material.getColor();
 }
