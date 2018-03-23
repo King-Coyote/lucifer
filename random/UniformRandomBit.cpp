@@ -23,6 +23,12 @@ float UniformRandomBit::getUniformRandom() {
     return x/(float)UINT32_MAX;
 }
 
+float UniformRandomBit::getUniformRandomInt() {
+    this->getUniformRandom();
+    return this->currentVal;
+}
+
 void UniformRandomBit::setSeed(unsigned int seed) {
     this->currentVal = seed;
+    seedSet = true;
 }
