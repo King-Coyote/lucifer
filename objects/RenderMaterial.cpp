@@ -105,10 +105,14 @@ void RenderMaterial::transmuteReflectedRay(Ray& ray, const Vec& hitNormal, Unifo
 
     Vec orientedX, orientedY;
     specDir.formONS(orientedX, orientedY);
-    Vec rotatedDir;
-    rotatedDir.x = Vec(orientedX.x, orientedY.x, specDir.x).dot(sampleVec);
-    rotatedDir.y = Vec(orientedX.y, orientedY.y, specDir.y).dot(sampleVec);
-    rotatedDir.z = Vec(orientedX.z, orientedY.z, specDir.z).dot(sampleVec);
+    Vec rotatedDir = Vec(
+        Vec(orientedX.x, orientedY.x, specDir.x).dot(sampleVec),
+        Vec(orientedX.y, orientedY.y, specDir.y).dot(sampleVec),
+        Vec(orientedX.z, orientedY.z, specDir.z).dot(sampleVec)
+    );
+    // rotatedDir.x = Vec(orientedX.x, orientedY.x, specDir.x).dot(sampleVec);
+    // rotatedDir.y = Vec(orientedX.y, orientedY.y, specDir.y).dot(sampleVec);
+    // rotatedDir.z = Vec(orientedX.z, orientedY.z, specDir.z).dot(sampleVec);
     ray.d = rotatedDir.normalise();
     float diffuseCost = ray.d.dot(hitNormal);
     float specCost = pow(ray.d.dot(specDir), this->specularity);

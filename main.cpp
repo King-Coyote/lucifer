@@ -60,48 +60,26 @@ int main(int argc, char** argv) {
 
 	Raytracer raytracer = Raytracer();
 	RenderCamera camera = RenderCamera(width, height, Vec(0.2, 0.01, 0.25), Vec(0.3, 1, 0.4));
-	UniformRandomBit seeder = UniformRandomBit();
-	seeder.setSeed(97); // TODO defaultist traysh in the seeder init seed.
-	//UniformRandomBit urb = UniformRandomBit();
-	// #pragma omp parallel foqr schedule(dynamic) firstprivate(urb)
-	// for (int i = 0; i<4; i++) {
-	// 	urb.setSeed(i);
-	// 	for (int j=0; j<5; j++) {
-	// 		printf("urb with seed %d gives: %d\n", i, urb.getUniformRandom());
-	// 	}
-	// }
-	// TODO doing the randoms like this is not elegant. There should be a thread safe way of creating a URB using firstprivate
-	UniformRandomBit* randoms = new UniformRandomBit[omp_get_max_threads()];
-	for (int i = 0; i<omp_get_max_threads(); i++) {
-		randoms[i].setSeed((i+7)*13);
-	}
+	UniformRandomBit urb = UniformRandomBit();
 
 	double timeBefore = omp_get_wtime();
 
-	#pragma omp parallel for schedule(dynamic)
-	for (int j = 0; j<height; j++) {
-		fprintf(stdout, "Rendering percent complete: %.2f%%\r", ((double)j/height)*100);
-		for (int i = 0; i<width; i++) {
-			for (int s = 0; s<samples; s++) {
-				Pixel radiance = Pixel();
-				Ray mainRay = Ray(camera.getPosition(), camera.pixelToImage(i, j));
-				raytracer.tracePixel(radiance, mainRay, mainScene, randoms[omp_get_thread_num()], 0);
-				pixels[i][j] += radiance / samples;
+	#pragma omp parallel private(urb) 
+	{
+		urb.setSeed((omp_get_thread_num() + 13)*47);
+		#pragma omp for schedule(dynamic)
+		for (int j = 0; j<height; j++) {
+			fprintf(stdout, "Rendering percent complete: %.2f%%\r", ((double)j/height)*100);
+			for (int i = 0; i<width; i++) {
+				for (int s = 0; s<samples; s++) {
+					Pixel radiance = Pixel();
+					Ray mainRay = Ray(camera.getPosition(), camera.pixelToImage(i, j));
+					raytracer.tracePixel(radiance, mainRay, mainScene, urb, 0);
+					pixels[i][j] += radiance / samples;
+				}
 			}
 		}
 	}
-	// #pragma omp parallel for schedule(dynamic)
-	// for (int j = 0; j<height; j++) {
-	// 	fprintf(stdout, "Rendering percent complete: %.2f%%\r", ((double)j/height)*100);
-	// 	for (int i = 0; i<width; i++) {
-	// 		for (int s = 0; s<samples; s++) {
-	// 			Pixel radiance = Pixel();
-	// 			Ray mainRay = Ray(camera.getPosition(), camera.pixelToImage(i, j));
-	// 			raytracer.tracePixel(radiance, mainRay, mainScene, urb, 0);
-	// 			pixels[i][j] += radiance / samples;
-	// 		}
-	// 	}
-	// }
 
 	printf("Total time taken for render: %.3fs\n", omp_get_wtime() - timeBefore);
 
