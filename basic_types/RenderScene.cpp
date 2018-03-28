@@ -29,13 +29,13 @@ Hit RenderScene::getClosestIntersect(const Ray &ray) const {
 
 // TODO do you really need two separate methods if you're dictating which vector they go in anyway?...
 void RenderScene::addObject(const RenderObject* obj) {
-    this->objects.push_back(shared_ptr<const RenderObject>(obj));
+    this->objects.push_back(obj);
 }
 
 void RenderScene::addLight(const RenderObject* light) {
-    this->lights.push_back(shared_ptr<const RenderObject>(light));
+    this->lights.push_back(light);
 }
 
-const obj_vector& RenderScene::getLights() const {
+const vector<const RenderObject*>& RenderScene::getLights() const {
     return this->lights;
 }
