@@ -12,7 +12,7 @@ Hit RenderScene::getClosestIntersect(const Ray &ray) const {
     
     float minDistance = INFINITY;
     Hit closestHit = Hit();
-    for (auto obj : this->objects) {
+    for (auto const& obj : this->objects) {
         Hit intersect = obj->getIntersection(ray);
         if (!intersect) {
             continue;
@@ -29,13 +29,13 @@ Hit RenderScene::getClosestIntersect(const Ray &ray) const {
 
 // TODO do you really need two separate methods if you're dictating which vector they go in anyway?...
 void RenderScene::addObject(const RenderObject* obj) {
-    this->objects.push_back(obj);
+    this->objects.push_back(unique_ptr<const RenderObject>(obj));
 }
 
 void RenderScene::addLight(const RenderObject* light) {
-    this->lights.push_back(light);
+    this->lights.push_back(unique_ptr<const RenderObject>(light));
 }
 
-const vector<const RenderObject*>& RenderScene::getLights() const {
+const obj_vector& RenderScene::getLights() const {
     return this->lights;
 }

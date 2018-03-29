@@ -39,7 +39,7 @@ void Raytracer::tracePixel(Pixel& radiance, Ray& mainRay, const RenderScene& sce
     }
 
     Pixel explicitLight;
-    for (auto light : scene.getLights()) {
+    for (auto const& light : scene.getLights()) {
         // TODO: need to raytrace here to get collisions
         Ray toLight = Ray(intersect.hitPoint, (light->getPosition() - intersect.hitPoint));
         float lightDist = intersect.hitPoint.distanceTo(light->getPosition());

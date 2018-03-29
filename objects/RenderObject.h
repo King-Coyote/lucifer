@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <cstdio>
 #include "RenderMaterial.h"
 #include "RenderVec.h"
 
