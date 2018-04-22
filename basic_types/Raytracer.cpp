@@ -25,12 +25,13 @@ void Raytracer::tracePixel(Pixel& radiance, Ray& mainRay, const RenderScene& sce
 
     const RenderMaterial& material = intersect.hitObject->getMaterial();
 
-    // TODO make this reflection coefficient work properly - for now, just 1.0 for always diffuse.
-    //float R = material.getReflectionCoefficient(mainRay, intersect.hitNormal);
-    float R = 1.0f;
     float transmuteCost = 1.0f;
+    float R = 1.0f;
+    if (material.getTransparent()) {
+        R = material.getReflectionCoefficient(mainRay, intersect.hitNormal);
+    }
 
-    if (rand.getUniformRandom() < R) {
+    if (rand.getUniformRandom() <= R) {
         material.transmuteReflectedRay(mainRay, intersect.hitNormal, rand);
         transmuteCost = material.getReflectionCost(mainRay, intersect.hitNormal);
     } else {
@@ -40,7 +41,6 @@ void Raytracer::tracePixel(Pixel& radiance, Ray& mainRay, const RenderScene& sce
 
     Pixel explicitLight;
     for (auto const& light : scene.getLights()) {
-        // TODO: need to raytrace here to get collisions
         Ray toLight = Ray(intersect.hitPoint, (light->getPosition() - intersect.hitPoint));
         float lightDist = intersect.hitPoint.distanceTo(light->getPosition());
         Hit lightIntersect = scene.getClosestIntersect(toLight);

@@ -4,6 +4,7 @@
 #include "RenderObject.h"
 #include "RenderObjectSphere.h"
 #include "RenderObjectPlane.h"
+#include "RenderObjectPointLight.h"
 #include "RenderMaterial.h"
 
 using namespace std;
@@ -52,8 +53,7 @@ vector<unique_ptr<RenderObject>> ObjectFactoryJson::createObjects() const {
                 continue;
             }
         } catch (const exception& e) {
-            // TODO this needs debug info
-            cerr << e.what() << endl;
+            cerr << "Object not created: "  << e.what() << endl;
             continue;
         }
     }
@@ -63,6 +63,40 @@ vector<unique_ptr<RenderObject>> ObjectFactoryJson::createObjects() const {
 unique_ptr<RenderObject> ObjectFactoryJson::createObject() const {
     // not really valid for this boi
 }
+
+vector<unique_ptr<RenderObject>> ObjectFactoryJson::createLights() const {
+    Json::Value lights = this->obj["lights"];
+    vector<unique_ptr<RenderObject>> sceneLights = vector<unique_ptr<RenderObject>>();
+    if (lights.isNull() || lights.empty()) {
+        return sceneLights; // empty vector if u done fuck up
+    }
+
+    for (int i = 0; i<lights.size(); ++i) {
+        if (!lights[i].isObject()) {
+            continue;
+        }
+        try {
+            Vec position = getVecFromJson(lights[i]["position"]);
+            Pixel color = getColorFromJson("white");
+            RenderMaterial material = RenderMaterial(lights[i]["emittance"].asFloat(), color);
+            sceneLights.push_back(unique_ptr<RenderObject>(new RenderObjectPointLight(
+                position,
+                lights[i]["id"].asString(),
+                color,
+                lights[i]["emittance"].asFloat()
+            )));
+        } catch (const exception& e) {
+            cerr << "Object not created: " << e.what() << endl;
+            continue;
+        }
+    }
+    return sceneLights;
+}
+
+unique_ptr<RenderObject> ObjectFactoryJson::createLight() const {
+    // also not really relevant for this boi
+}
+
 
 Pixel ObjectFactoryJson::getColorFromJson(const string& handle) const {
     Json::Value colorJson = this->obj["colors"][handle];

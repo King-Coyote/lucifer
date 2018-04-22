@@ -1,0 +1,52 @@
+{
+    "objects" : [
+        {
+            "type":"plane","position":{"x":0.5,"y":0.5,"z":0.0},"id":"Ceiling",
+            "normal":{"x":0.0,"y":0.0,"z":1.0},"material":"material_diff_walls"
+        },
+        {
+            "type":"plane","position":{"x":0.0,"y":0.5,"z":0.5},"id":"Left_Wall",
+            "normal":{"x":1.0,"y":0.0,"z":0.0},"material":"material_diff_walls"
+        },
+        {
+            "type":"plane","position":{"x":0.5,"y":1.0,"z":0.5},"id":"Back_Wall",
+            "normal":{"x":0.0,"y":-1.0,"z":0.0},"material":"material_diff_walls"
+        },
+        {
+            "type":"plane","position":{"x":1.0,"y":0.5,"z":0.5},"id":"Right_Wall",
+            "normal":{"x":-1.0,"y":0.0,"z":0.0},"material":"material_diff_walls"
+        },
+        {
+            "type":"plane","position":{"x":0.5,"y":0.5,"z":1.0},"id":"Floor",
+            "normal":{"x":0.0,"y":0.0,"z":-1.0},"material":"material_diff_walls"
+        },
+        {
+            "type":"plane","position":{"x":0.5,"y":0.0,"z":0.5},"id":"Front_Wall",
+            "normal":{"x":0.0,"y":1.0,"z":0.0},"material":"material_diff_walls"
+        },
+        {
+            "type": "sphere","position":{"x":0.5,"y":1.0,"z":0.5},"id":"diff_sphere",
+            "radius":0.2,"material":"material_diff_red"
+        },
+        {
+            "type": "sphere","position":{"x":0.7,"y":0.7,"z":0.4},"id":"refr_sphere",
+            "radius":0.15,"material":"material_refr_purp"
+        }
+    ],
+    "lights": [
+        {
+            "position":{"x":0.8,"y":0.4,"z":0.9},"id":"Main_Light","emittance":0.5,"color":"white"
+        }
+    ],
+    "materials": {
+        "material_diff_red":{"emittance":0.0,"transparent":false,"refrIndex":1.0,"specularity":0.0,"color":"red"},
+        "material_diff_walls":{"emittance":0.0,"transparent":false,"refrIndex":1.0,"specularity":0.0,"color":"grey"},
+        "material_refr_purp":{"emittance":0.0,"transparent":true,"refrIndex":1.5,"specularity":0.0,"color":"purple"}
+    },
+    "colors": {
+        "red":{"r":1.0,"g":0.01,"b":0.01},
+        "grey":{"r":0.5,"g":0.5,"b":0.5},
+        "white":{"r":1.0,"g":1.0,"b":1.0},
+        "purple":{"r":1.0,"g":0.01,"b":1.0}
+    }
+}

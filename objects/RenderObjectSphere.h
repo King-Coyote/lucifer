@@ -6,7 +6,7 @@ class Ray;
 
 class RenderObjectSphere : public RenderObject {
 public:
-    RenderObjectSphere(Vec centerPosition, float radius, string id, RenderMaterial material);
+    RenderObjectSphere(Vec centerPosition, string id, float radius, RenderMaterial material);
     ~RenderObjectSphere() {}
 
     Hit getIntersection(const Ray& ray) const;

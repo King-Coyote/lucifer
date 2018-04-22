@@ -38,6 +38,14 @@ public:
         return _mm_sub_ps(this->vals, v.vals);
     }
 
+    inline Vec operator+(const float f) const {
+        return _mm_add_ps(this->vals, _mm_setr_ps(f, f, f, 0.0f));
+    }
+
+    inline Vec operator-(const float f) const {
+        return _mm_sub_ps(this->vals, _mm_setr_ps(f, f, f, 0.0f));
+    }
+
     inline Vec operator*(const float f) const {
         __m128 scalar = _mm_setr_ps(f, f, f, f);
         return _mm_mul_ps(this->vals, scalar);

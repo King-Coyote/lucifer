@@ -13,6 +13,8 @@ public:
     virtual ~ObjectFactory() {}
 
     virtual vector<unique_ptr<RenderObject>> createObjects() const = 0;
+    virtual vector<unique_ptr<RenderObject>> createLights() const = 0;
     virtual unique_ptr<RenderObject> createObject() const = 0;
+    virtual unique_ptr<RenderObject> createLight() const = 0;
 
 };

@@ -3,7 +3,7 @@
 
 using namespace std;
 
-RenderObjectPlane::RenderObjectPlane(Vec centerPosition, Vec n, string id, RenderMaterial material) :
+RenderObjectPlane::RenderObjectPlane(Vec centerPosition, string id, Vec n, RenderMaterial material) :
     RenderObject(centerPosition, id, material),
     normal(n)
 {

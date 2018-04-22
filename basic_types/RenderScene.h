@@ -9,14 +9,16 @@ struct Hit;
 
 using namespace std;
 
-typedef vector<unique_ptr<const RenderObject>> obj_vector;
+typedef vector<unique_ptr<RenderObject>> obj_vector;
 
 class RenderScene {
 public: // METHODS
 
     Hit getClosestIntersect(const Ray &ray) const;
-    void addObject(const RenderObject* obj);
-    void addLight(const RenderObject* light);
+    void setObjects(vector<unique_ptr<RenderObject>> objects);
+    void setLights(vector<unique_ptr<RenderObject>> lights);
+    void addObject(RenderObject* obj);
+    void addLight(RenderObject* light);
     const obj_vector& getLights() const;
 private: // MEMBERS
     obj_vector objects;

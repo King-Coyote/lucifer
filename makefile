@@ -1,14 +1,14 @@
 CC := g++
 LD := g++
 
-CXXFLAGS := -g -O3 -msse4.1 `Magick++-config --cxxflags --cppflags`
-LDFLAGS := -g `Magick++-config --cxxflags --cppflags` `Magick++-config --ldflags --libs` -fopenmp -lprofiler
+CXXFLAGS := -g -O3 -msse4.1 -std=c++11 `Magick++-config --cxxflags --cppflags`
+LDFLAGS := -g `Magick++-config --cxxflags --cppflags` `Magick++-config --ldflags --libs` -fopenmp -lprofiler -ljsoncpp
 
 SRC_DIR := objects basic_types random
 BUILD_DIR := $(addprefix build/,$(SRC_DIR))
 
 SRC := $(foreach sdir,$(SRC_DIR),$(wildcard $(sdir)/*.cpp))
-INCLUDES := $(addprefix -I,$(SRC_DIR))
+INCLUDES := $(addprefix -I,$(SRC_DIR)) -Ijson
 OBJ := $(patsubst %.cpp,build/%.o,$(SRC))
 
 vpath %.cpp $(SRC_DIR)

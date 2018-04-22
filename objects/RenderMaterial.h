@@ -19,7 +19,7 @@ public: // METHODS
     RenderMaterial();
     RenderMaterial(RenderMaterialType type, Pixel color);
     RenderMaterial(float emittance, Pixel color); // for making lights
-    RenderMaterial(float emittance, float transparency, float refrIndex, float specularity, float diffusion, Pixel color);
+    RenderMaterial(float emittance, bool transparent, float refrIndex, float specularity, Pixel color);
     RenderMaterial(std::string filename); //construct from JSON?
 
     // these return their coefficients to handle proportion of transmission/reflection
@@ -28,16 +28,15 @@ public: // METHODS
     float  getReflectionCoefficient(const Ray& ray, const Vec& surfaceNormal) const;
     float  getReflectionCost       (const Ray& ray, const Vec& normal) const;
     float  getTransmissionCost     (const Ray& ray, const Vec& normal) const;
+    bool   getTransparent          () const;
 
     // getters
     Pixel  getColor() const;
     float  getEmittance() const;
 private: //MEMBERS
     float emittance;
-    float transparency;
+    bool  transparent;
     float refrIndex;
     float specularity; // this is related to diffusion by 1-specularity
-    float diffusion;
-    float transmissionCoefficient;
     Pixel color;
 };

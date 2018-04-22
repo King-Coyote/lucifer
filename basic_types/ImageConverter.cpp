@@ -12,8 +12,8 @@ void ImageConverter::convertImage(const string filename, const unsigned int w, c
         for (unsigned int i = 0; i<w; i++) {
             image.pixelColor(i, j, Color(
                 (pixels[i][j].r) * QuantumRange,
-                (pixels[i][j].g) * QuantumRange,
                 (pixels[i][j].b) * QuantumRange,
+                (pixels[i][j].g) * QuantumRange,
                 0
             ));
         }

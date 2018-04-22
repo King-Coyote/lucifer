@@ -3,7 +3,7 @@
 #include "RenderObjectSphere.h"
 #include "RenderRay.h"
 
-RenderObjectSphere::RenderObjectSphere(Vec centerPosition, float radius, string id, RenderMaterial material) :
+RenderObjectSphere::RenderObjectSphere(Vec centerPosition, string id, float radius, RenderMaterial material) :
     RenderObject(centerPosition, id, material),
     radius(radius)
 {}
@@ -20,10 +20,10 @@ Hit RenderObjectSphere::getIntersection(const Ray& ray) const {
         // 2 cases for the two signs of the equation.
         float soln1 = (-B - sqrt(dis));
         float soln2 = (-B + sqrt(dis));
-        if (soln1 > 1e-6) {
+        if (soln1 > 1e-3) {
             Vec hitPoint = ray.o + ray.d*(soln1/2);
             return Hit(soln1 / 2, hitPoint, this->getNormalAtPoint(hitPoint), this);
-        } else if (soln2 > 1e-6) {
+        } else if (soln2 > 1e-3) {
             Vec hitPoint = ray.o + ray.d*(soln2/2);
             return Hit(soln2 / 2, hitPoint, this->getNormalAtPoint(hitPoint), this);
         } else {

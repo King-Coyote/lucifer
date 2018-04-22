@@ -21,7 +21,9 @@ public: // METHODS
     virtual ~ObjectFactoryJson();
 
     vector<unique_ptr<RenderObject>> createObjects() const override;
+    vector<unique_ptr<RenderObject>> createLights() const override;
     unique_ptr<RenderObject> createObject() const override;
+    unique_ptr<RenderObject> createLight() const override;
 
 private: // MEMBERS
     Json::Value obj;

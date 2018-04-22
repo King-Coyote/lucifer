@@ -13,6 +13,7 @@
 #include "RenderCamera.h"
 #include "UniformRandomBit.h"
 #include "ImageConverter.h"
+#include "ObjectFactoryJson.h"
 
 using namespace std;
 
@@ -38,20 +39,27 @@ int main(int argc, char** argv) {
 		}
 	}
 
+    RenderScene mainScene = RenderScene();
+	ObjectFactoryJson ofj("scene.json");
+	mainScene.setObjects(ofj.createObjects());
+	mainScene.setLights(ofj.createLights());
+	// mainScene.setObjects(vector<unique_ptr<RenderObject>>());
+	// mainScene.setLights(vector<unique_ptr<RenderObject>>());
+
 	// POSITIONING:
 	// z=0 is the floor, 1 is the ceiling.
 	//TODO create a data-driven way of constructing a scene
-    RenderScene mainScene = RenderScene();
-    mainScene.addObject(new RenderObjectPlane(Vec(0.5, 0.5, 0), Vec(0, 0, 1), "Ceiling", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 1.0, 1.0))));
-	mainScene.addObject(new RenderObjectPlane(Vec(0, 0.5, 0.5), Vec(1, 0, 0), "Left_Wall", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 1.0, 1.0))));
-	mainScene.addObject(new RenderObjectPlane(Vec(0.5, 1, 0.5), Vec(0, -1, 0), "Back_Wall", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 1.0, 1.0))));
-	mainScene.addObject(new RenderObjectPlane(Vec(1, 0.5, 0.5), Vec(-1, 0, 0), "Right_Wall", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 1.0, 1.0))));
-	mainScene.addObject(new RenderObjectPlane(Vec(0.5, 0.5, 1), Vec(0, 0, -1), "Floor", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 1.0, 1.0))));
-	mainScene.addObject(new RenderObjectPlane(Vec(0.5, 0, 0.5), Vec(0, 1, 0), "Front_Wall", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 1.0, 1.0))));
+    // mainScene.addObject(new RenderObjectPlane(Vec(0.5, 0.5, 0), "Ceiling", Vec(0, 0, 1), RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(0.9, 0.1, 0.2))));
+	// mainScene.addObject(new RenderObjectPlane(Vec(0, 0.5, 0.5), "Left_Wall", Vec(1, 0, 0), RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 0, 0))));
+	// mainScene.addObject(new RenderObjectPlane(Vec(0.5, 1, 0.5), "Back_Wall", Vec(0, -1, 0), RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 0, 0))));
+	// mainScene.addObject(new RenderObjectPlane(Vec(1, 0.5, 0.5), "Right_Wall", Vec(-1, 0, 0), RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(0.1, 1.0, 1.0))));
+	// mainScene.addObject(new RenderObjectPlane(Vec(0.5, 0.5, 1), "Floor", Vec(0, 0, -1), RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 0, 0))));
+	// mainScene.addObject(new RenderObjectPlane(Vec(0.5, 0, 0.5), "Front_Wall", Vec(0, 1, 0), RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 0, 0))));
 
-	mainScene.addObject(new RenderObjectSphere(Vec(0.5, 1, 0.5), 0.2f, "diff_sphere", RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(1.0, 0, 0))));
+	// mainScene.addObject(new RenderObjectSphere(Vec(0.5, 1, 0.5), "diff_sphere", 0.2f, RenderMaterial(RenderMaterialType::DIFFUSE, Pixel(0.0, 1.0, 1.0))));
+	// mainScene.addObject(new RenderObjectSphere(Vec(0.7, 0.7, 0.4), "purp_sphere", 0.1f, RenderMaterial(RenderMaterialType::REFRACTIVE, Pixel(1.0f, 0, 0.9f))));
 
-	mainScene.addLight(new RenderObjectPointLight(Vec(0.8, 0.4, 0.9), "Main_Light", Pixel(1.0, 1.0, 1.0), 0.5));
+	// mainScene.addLight(new RenderObjectPointLight(Vec(0.8, 0.4, 0.9), "Main_Light", Pixel(1.0, 1.0, 1.0), 0.5));
 
 	Pixel** pixels = new Pixel*[width];
 	for (int i = 0; i<width; i++) {

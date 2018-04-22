@@ -7,7 +7,7 @@
 
 class RenderObjectPlane : public RenderObject {
 public:
-    RenderObjectPlane(Vec centerPosition, Vec n, string id, RenderMaterial material);
+    RenderObjectPlane(Vec centerPosition, string id, Vec n, RenderMaterial material);
     ~RenderObjectPlane() {}
 
     Hit getIntersection(const Ray& ray) const;
